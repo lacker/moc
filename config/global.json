@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "MOC": {
+            "applicationId": "vaCDeEWI1qtZ0m95JFZttf3U7b4kLEQQWSAjWtV3", 
+            "masterKey": "4P8Rwg1554BdwBv5G2XOzDEHcdJKPllYJ9P9kyOF"
+        }, 
+        "_default": {
+            "link": "MOC"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.3.5"
+    }
+}
