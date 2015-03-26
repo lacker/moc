@@ -4,6 +4,10 @@
             "applicationId": "vaCDeEWI1qtZ0m95JFZttf3U7b4kLEQQWSAjWtV3", 
             "masterKey": "4P8Rwg1554BdwBv5G2XOzDEHcdJKPllYJ9P9kyOF"
         }, 
+        "MOC Development": {
+            "applicationId": "V5Keh61PQrh54TfTDeN8EJCMC03UuOten9wTN7Ku", 
+            "masterKey": "0vvPXJfIO1qmeUcqZgJiZMTWjUdAgXQTVjaMtynk"
+        }, 
         "_default": {
             "link": "MOC"
         }
