@@ -3,11 +3,15 @@ Parse.initialize(
   "vaCDeEWI1qtZ0m95JFZttf3U7b4kLEQQWSAjWtV3",
   "oLC9CG6BUtUwJGXiynv1M8ToKUpNmSMcB52GZwUS")
 
+var x;
 
 $(document).ready(function() {
 
 
-  Parse.Cloud.run("scrapeHackerNews")
+  Parse.Cloud.run("scrapeParseBlog").then(function(response) {
+    x = response
+  })                                                        
+
 
   console.log("called ready")
 
