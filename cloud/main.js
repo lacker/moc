@@ -11,6 +11,14 @@ var _ = require("underscore");
 
 // This uses the HN API to gather some data.
 Parse.Cloud.define("scrapeHackerNews", function(request, response) {
+  // First find ten BlogPost objects that could use updated HN info.
+  var query = new Parse.Query("BlogPost")
+  query.descending("publishedAt")
+  query.limit(10)
+  query.find().then(function(results) {
+    /// TODO
+  })
+
   console.log("scrapeHackerNews called")
 });
 
@@ -25,7 +33,7 @@ Parse.Cloud.define("scrapeParseBlog", function(request, response) {
 
     var promises = []
     _.each(entries, function(entry) {
-      console.log("pushing " + entry.title)
+      // console.log("pushing " + entry.title)
       promises.push(handleBlogPost(entry))
     });
     return Parse.Promise.when(promises)
@@ -36,12 +44,31 @@ Parse.Cloud.define("scrapeParseBlog", function(request, response) {
 
 // Handles a single blog post being scraped.
 // Returns a promise for it being done.
+//
 // The post has fields:
 // author: a string for the author
 // link: a url to the article
 // publishedDate: the date it was published in some weird format
 // title: a title for the article
-function handleBlogPost(post) {
-  console.log("handling " + post.title)
-  // TODO: create some objects
+//
+// In the BlogPost, link -> url and publishedDate -> publishedAt. 
+function handleBlogPost(postInfo) {
+  // Check if a BlogPost with this link exists.
+  var query = new Parse.Query("BlogPost")
+  query.equalTo("url", postInfo.link)
+  return query.find().then(function(results) {
+    if (results.length > 0) {
+      return
+    }
+
+    date = new Date(Date.parse(postInfo.publishedDate))
+
+    var post = new Parse.Object("BlogPost")
+    post.set("author", postInfo.author)
+    post.set("url", postInfo.link)
+    post.set("publishedAt", date)
+    post.set("title", postInfo.title)
+    console.log("saving " + postInfo.title)
+    return post.save()
+  })
 }
