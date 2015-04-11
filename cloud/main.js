@@ -16,11 +16,24 @@ Parse.Cloud.define("scrapeHackerNews", function(request, response) {
   query.descending("publishedAt")
   query.limit(10)
   query.find().then(function(results) {
-    /// TODO
-  })
-
-  console.log("scrapeHackerNews called")
+    var promises = []
+    _.each(results, function(post) {
+      console.log("pushing " + post.get("title"))
+      promises.push(updateStats(post))
+    });
+    return Parse.Promise.when(promises)
+  }).then(function() {
+    response.success()
+  }
 });
+
+// Updates the stats for a given BlogPost object.
+// Returns a promise rather than actually doing it.
+// The data added is just:
+// upvotes: the # of hacker news upvotes
+function updateStats(post) {
+  // TODO
+}
 
 // This grabs ten posts from the Parse blog.
 Parse.Cloud.define("scrapeParseBlog", function(request, response) {
