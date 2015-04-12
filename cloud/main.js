@@ -7,31 +7,34 @@ var _ = require("underscore");
 // title:       the title of the blog post
 // author:      who wrote the blog post. string
 // publishedAt: a timestamp for when it was published
-// upvotes:     the number of upvotes on Hacker News
+// hnPoints:    the number of points on Hacker News
+
 
 // This uses the HN API to gather some data.
 Parse.Cloud.define("scrapeHackerNews", function(request, response) {
-  // First find ten BlogPost objects that could use updated HN info.
-  var query = new Parse.Query("BlogPost")
-  query.descending("publishedAt")
-  query.limit(10)
-  query.find().then(function(results) {
+  var url = "http://hn.algolia.com/api/v1/search_by_date?query=blog.parse.com"
+
+  Parse.Cloud.httpRequest({url: url}).then(function(httpResponse) {
+
+    var resp = JSON.parse(httpResponse.text)
+    var hits = resp.hits
+
     var promises = []
-    _.each(results, function(post) {
-      console.log("pushing " + post.get("title"))
-      promises.push(updateStats(post))
+    _.each(hits, function(hit) {
+      // TODO: push a promise for processing this hit
     });
     return Parse.Promise.when(promises)
+
   }).then(function() {
     response.success()
-  }
+  });
 });
 
 // Updates the stats for a given BlogPost object.
 // Returns a promise rather than actually doing it.
 // The data added is just:
-// upvotes: the # of hacker news upvotes
-function updateStats(post) {
+// hnPoints: the # of hacker news points
+function updateStats(url, points) {
   // TODO
 }
 
