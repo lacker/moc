@@ -39,7 +39,15 @@ function updateStats(url, points) {
   var query = new Parse.Query("BlogPost")
   query.equalTo("url", url)
   return query.find().then(function(results) {
-    // TODO: Return a promise for saving updated data
+    if (results.length != 1) {
+      return
+    }
+
+    var post = results[0]
+    post.set("points", points)
+    console.log("saving " + post.get("title") + " with "
+                + points + " points")
+    return post.save()
   })
 }
 
