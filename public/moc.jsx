@@ -8,6 +8,8 @@ $(document).ready(function() {
 
   Parse.Cloud.run("scrapeParseBlog").then(function(response) {
     console.log("scraped the parse blog")
-  })                                                        
-
+    return Parse.Cloud.run("scrapeHackerNews")
+  }).then(function() {
+    console.log("scraped Hacker News")
+  })
 })

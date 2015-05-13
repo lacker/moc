@@ -21,6 +21,9 @@ Parse.Cloud.define("scrapeHackerNews", function(request, response) {
 
     var promises = []
     _.each(hits, function(hit) {
+      if (hit.url == null) {
+        return
+      }
       promises.push(updateStats(hit.url, hit.points))
     });
     return Parse.Promise.when(promises)
