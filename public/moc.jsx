@@ -13,3 +13,26 @@ $(document).ready(function() {
     console.log("scraped Hacker News")
   })
 })
+
+var InfoBlock = React.createClass({
+  mixins: [ParseReact.Mixin],
+
+  observe: function() {
+    // Subscribe to all BlogPost objects, ordered by creation date
+    // The results will be available at this.data.comments
+    return {
+      comments: (new Parse.Query("Comment")).descending("points")
+    };
+  },
+
+  render: function() {
+    // Render info for each blog post
+    return (
+      <ul>
+        {this.data.posts.map(function(post) {
+          return <li>{post.points} points: {post.title}</li>;
+        })}
+      </ul>
+    );
+  }
+});
